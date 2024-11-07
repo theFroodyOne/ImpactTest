@@ -36,6 +36,45 @@ public class CSVNumberRangeSummarizerTest {
         assertTrue(thrown);
     }
 
+    @Test
+    public void emptyInput(){
+        CSVNumberRangeSummarizer summarizer = new CSVNumberRangeSummarizer();
+        boolean thrown = false;
+        try {
+            Collection<Integer> collection = summarizer.collect("");
+        } catch (NumberFormatException e) {
+            thrown = true;
+            assertEquals("Input should be integers separated by commas, '' is not an integer",
+                    e.getMessage());
+        }
+        assertTrue(thrown);
+    }
+
+    @Test
+    public void nullInput(){
+        CSVNumberRangeSummarizer summarizer = new CSVNumberRangeSummarizer();
+        boolean thrown = false;
+        try {
+            Collection<Integer> collection = summarizer.collect(null);
+        } catch (NullPointerException e) {
+            thrown = true;
+        }
+        assertTrue(thrown);
+    }
+
+    @Test
+    public void negativeInput(){
+        CSVNumberRangeSummarizer summarizer = new CSVNumberRangeSummarizer();
+        boolean thrown = false;
+        try {
+            Collection<Integer> collection = summarizer.collect("-4, 17, 428");
+        } catch (NumberFormatException e) {
+            thrown = true;
+            assertEquals("Negative numbers are not supported", e.getMessage());
+        }
+        assertTrue(thrown);
+    }
+
     /**
      * Functionality tests
      */
@@ -44,13 +83,6 @@ public class CSVNumberRangeSummarizerTest {
         CSVNumberRangeSummarizer summarizer = new CSVNumberRangeSummarizer();
         assertEquals("1, 3, 6-8, 12-15, 21-24, 31", summarizer.summarizeCollection(summarizer.
                 collect("1,3,6,7,8,12,13,14,15,21,22,23,24,31")));
-    }
-
-    @Test
-    public void negativeInput(){
-        CSVNumberRangeSummarizer summarizer = new CSVNumberRangeSummarizer();
-        assertEquals("-42--41, 17-19, 41-43", summarizer.summarizeCollection(summarizer.
-                collect("-42, 41, 42, 43, -41, 17, 18, 19")));
     }
 
     @Test
@@ -65,5 +97,11 @@ public class CSVNumberRangeSummarizerTest {
         CSVNumberRangeSummarizer summarizer = new CSVNumberRangeSummarizer();
         assertEquals("1-10", summarizer.summarizeCollection(summarizer.
                 collect("1, 2, 3, 4, 5, 6, 7, 8, 9, 10")));
+    }
+
+    @Test
+    public void singleInput(){
+        CSVNumberRangeSummarizer summarizer = new CSVNumberRangeSummarizer();
+        assertEquals("1", summarizer.summarizeCollection(summarizer.collect("1")));
     }
 }

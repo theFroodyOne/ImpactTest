@@ -18,13 +18,18 @@ public class CSVNumberRangeSummarizer implements NumberRangeSummarizer{
         String[] tokens = input.split(",");
         PriorityQueue<Integer> collection = new PriorityQueue<>();
         for (String token : tokens) {
+            int num = 0;
             try {
                 //remove whitespace that could trip up parseInt
-                collection.add(Integer.parseInt(token.strip()));
+                num = Integer.parseInt(token.strip());
             } catch (NumberFormatException e) {
                 throw new NumberFormatException("Input should be integers separated by commas, '"
                         + token + "' is not an integer");
             }
+            if(num < 0){
+                throw new NumberFormatException("Negative numbers are not supported");
+            }
+            collection.add(num);
         }
         return collection;
     }

@@ -18,7 +18,7 @@ public class CSVNumberRangeSummarizer implements NumberRangeSummarizer{
         String[] tokens = input.split(",");
         PriorityQueue<Integer> collection = new PriorityQueue<>();
         for (String token : tokens) {
-            int num = 0;
+            int num;
             try {
                 //remove whitespace that could trip up parseInt
                 num = Integer.parseInt(token.strip());
@@ -69,9 +69,9 @@ public class CSVNumberRangeSummarizer implements NumberRangeSummarizer{
     }
 
     /**
-     * Encapsulate range of integers in summary
+     * Encapsulate range of numbers in summary
      */
-    public class Range{
+    public static class Range{
         int start;
         int end;
 
